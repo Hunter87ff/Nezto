@@ -1,4 +1,4 @@
-import { loadAllCache } from "../cache/all";
+import { loadAllCache } from "@core/cache/all";
 import { Events } from "@/utils/constants";
 import { Nezto } from "../nezto";
 
