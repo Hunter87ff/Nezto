@@ -18,7 +18,7 @@ allRoutes.get('/', (req, res) => {
 });
 
 allRoutes.use('/auth', authRoute);
-allRoutes.use('/laundry', laundryRoute);
-allRoutes.use('/order', orderRoute);
-allRoutes.use('/user', userRoute);
+allRoutes.use('/vendors', laundryRoute);
+allRoutes.use('/orders', orderRoute);
+allRoutes.use('/users', userRoute);
 allRoutes.use('/services', serviceRoute);

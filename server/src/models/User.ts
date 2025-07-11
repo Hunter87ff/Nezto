@@ -5,7 +5,7 @@ export const UserSchema = new Schema(
     token: { type: String, required: true }, // JWT token
     email: { type: String, required: true, unique: true }, // User's email address
     name: { type: String, required: true },
-    avatar: { type: String }, // Profile image URL
+    picture: { type: String }, // Profile image URL
     roles: {
       type: [String],
       enum: ['user', 'rider', 'vendor', 'admin'],

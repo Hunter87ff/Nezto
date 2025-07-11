@@ -28,7 +28,7 @@ export class JwtUser {
     _id : string
     email : string
     name : string
-    role : string
+    roles : string[]
     picture : string
     createdAt : Date
     updatedAt : Date
@@ -37,7 +37,7 @@ export class JwtUser {
         this._id = String(obj._id || "");
         this.email = String(obj.email || "");
         this.name = String(obj.name || "");
-        this.role = String(obj.role || "");
+        this.roles = Array.from(obj.roles || ["user"]);
         this.picture = String(obj.picture || "");
         this.createdAt = new Date(obj.createdAt || new Date());
         this.updatedAt = new Date(obj.updatedAt || new Date());

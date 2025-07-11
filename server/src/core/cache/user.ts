@@ -1,6 +1,7 @@
-import jwt from 'jsonwebtoken';
+import { TokenUser } from "@/utils/token";
 import { Nezto } from "../nezto";
 import { BaseUser } from '@/core/user';
+import type { IUser } from "@/models/types";
 
 
 export class UserCache {
@@ -23,14 +24,9 @@ export class UserCache {
 
         const user = existingUser || new this.nezto.models.User(data);
 
-        const token = jwt.sign({ 
-            _id: user._id, 
-            name: user.name,
-            email: user.email, 
-            avatar: user.avatar, 
-            roles: user.roles || ["user"],
-            updatedAt: user.updatedAt,
-        }, this.nezto.config.jwtConfig.secret);
+        const token = TokenUser.sign({
+            ...user
+        });
 
         user.token = token; // Add token to user object
         const baseUser = new BaseUser(user);
@@ -59,7 +55,7 @@ export class UserCache {
         return null;
     }
 
-    public async findOne(query: Record<string, any>): Promise<BaseUser | null> {
+    public async findOne(query: Partial<IUser>): Promise<BaseUser | null> {
         const user = await this.nezto.models.User.findOne(query).exec();
         if (user) {
             const baseUser = new BaseUser(user);

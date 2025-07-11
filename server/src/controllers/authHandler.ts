@@ -40,7 +40,7 @@ export async function googleAuth(req : Request, res : Response) : Promise<void>{
         const newUser = await res.app.nezto.users.create(
             {
                 email: googleUser.email,
-                avatar: googleUser.picture,
+                picture: googleUser.picture,
                 name: googleUser.name,
                 roles: [UserRoles.user]
             }

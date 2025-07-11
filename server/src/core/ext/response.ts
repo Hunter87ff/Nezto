@@ -2,15 +2,15 @@ import { Response } from "express";
 
 class ResponseHandler{
 
-    async unAuthorised(res: Response, content: any = { message: "Unauthorized" }, ...args: any[]) {
+    async unAuthorised(res: Response, content: any =  "Unauthorized" , ...args: any[]) {
         res.status(401).json({
             status: 401,
-            message: content,
+            content: content,
             ...args
         });
     }
 
-    async forbidden(res: Response, content: any = { message: "Forbidden" }, ...args: any[]) {
+    async forbidden(res: Response, content: any =  "Forbidden" , ...args: any[]) {
         res.status(403).json({
             status: 403,
             message: content,
@@ -19,7 +19,7 @@ class ResponseHandler{
     }
 
 
-    async notFound(res: Response, content: any = { message: "Not Found" }, ...args: any[]) {
+    async notFound(res: Response, content: any =  "Not Found" , ...args: any[]) {
         res.status(404).json({
             status: 404,
             message: content,
@@ -27,7 +27,7 @@ class ResponseHandler{
         });
     }
 
-    async internalServerError(res: Response, content: any = { message: "Internal Server Error" }, ...args: any[]) {
+    async internalServerError(res: Response, content: any =  "Internal Server Error" , ...args: any[]) {
         res.status(500).json({
             status: 500,
             message: content,
@@ -35,42 +35,44 @@ class ResponseHandler{
         });
     }
 
-    async success(res: Response, content: any = { message: "Success" }, ...args: any[]) {
+    async success(res: Response, content: any =  "Success" , ...args: any[]) {
         res.status(200).json({
             status: 200,
-            message: content
+            content: content,
+            ...args
         });
     }
 
-    async created(res: Response, content: any = { message: "Created" }) {
+    async created(res: Response, content: any =  "Created" , ...args: any[]) {
         res.status(201).json({
             status: 201,
-            message: content
+            content: content,
+            ...args
         });
     }
 
-    async noContent(res: Response, content: any = { message: "No Content" }) {
+    async noContent(res: Response, content: any =  "No Content" ) {
         res.status(204).json({
             status: 204,
             message: content
         });
     }
 
-    async notModified(res: Response, content: any = { message: "Not Modified" }) {
+    async notModified(res: Response, content: any =  "Not Modified" ) {
         res.status(304).json({
             status: 304,
             message: content
         });
     }
 
-    async badRequest(res: Response, content: any = { message: "Bad Request" }) {
+    async badRequest(res: Response, content: any =  "Bad Request") {
         res.status(400).json({
             status: 400,
             message: content
         });
     }
 
-    async unAuthorized(res: Response, content: any = { message: "Unauthorized" }) {
+    async unAuthorized(res: Response, content: any =  "Unauthorized") {
         res.status(401).json({
             status: 401,
             message: content

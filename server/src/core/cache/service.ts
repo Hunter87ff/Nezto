@@ -34,6 +34,17 @@ export class ServiceCache {
         return null;
     }
 
+    public async getAll(): Promise<BaseService[]> {
+        if (this.size > 0) {
+            return this.toArray();
+        }
+        const services = await this.nezto.models.Service.find().exec();
+        services.forEach(service => {
+            this.set(String(service._id), new BaseService(service));
+        });
+        return Array.from(this.cache.values());
+    }
+
     public has(id: string): boolean {
         return this.cache.has(String(id));
     }

@@ -19,9 +19,7 @@ export async function getAllUsers(req: Request, res: Response) {
     try {
         const users = await User.find({}).select('-token');
 
-        res.handler.success(res, {
-            users, count: users.length, message: 'Users fetched successfully'
-        });
+        res.handler.success(res, users)
 
     } catch (error: any) {
         res.app.nezto.logger.error('Error fetching users:', error);

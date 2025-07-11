@@ -10,7 +10,7 @@ export class BaseUser {
     name: string;
     token: string;
     roles: string[];
-    avatar: string;
+    picture: string;
     location: [number, number] | null;
     address: string | null;
     payment: Object | null;
@@ -26,7 +26,7 @@ export class BaseUser {
         this.email = String(obj.email || "");
         this.name = String(obj.name || "User");
         this.roles = obj.roles || ["user"];
-        this.avatar = String(obj.avatar || "");
+        this.picture = String(obj.picture || "");
         this.payment = obj.payment || null;
         this.location = obj.location ? [Number(obj.location[0]), Number(obj.location[1])] : null;
         this.address = obj.address || null;
@@ -40,7 +40,7 @@ export class BaseUser {
             email: this.email,
             name: this.name,
             role: this.roles,
-            avatar: this.avatar,
+            picture: this.picture,
             location: this.location,
             address: this.address,
             payment: this.payment,
@@ -56,7 +56,7 @@ export class BaseUser {
                 email: this.email,
                 name: this.name,
                 roles: this.roles,
-                avatar: this.avatar,
+                picture: this.picture,
                 location: this.location,
                 address: this.address,
                 payment: this.payment
@@ -77,7 +77,7 @@ export class BaseUser {
             _id: this._id,
             name: this.name,
             email: this.email,
-            avatar: this.avatar,
+            picture: this.picture,
             roles: this.roles || ["user"],
             updatedAt: this.updatedAt,
         }, jwtConfig.secret);

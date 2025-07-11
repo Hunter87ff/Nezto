@@ -16,28 +16,7 @@ interface ServiceFilter {
  * @access  Public
  */
 export async function getAllServices(req: Request, res: Response){
-    try {
-        const { category, page } = req.query;
-
-        const services = await Service.find({
-            category: category || "daily",
-            active: true
-        }).skip((Number(page) || 0) * 10).limit(10);
-
-        res.status(200).json({
-            success: true,
-            count: services.length,
-            data: services,
-        });
-    } 
-    
-    catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: "Server Error",
-            error: error.message,
-        });
-    }
+    res.ctx.response.success(res, await res.ctx.services.getAll())
 };
 
 /**Get a single service by ID
@@ -45,29 +24,7 @@ export async function getAllServices(req: Request, res: Response){
  * @access  Public
  */
 export async function getServiceById(req: Request, res: Response){
-    try {
-        const service = await Service.findOne({ serviceId: req.params.id });
-
-        if (!service) {
-            res.status(404).json({
-                success: false,
-                message: "Service not found",
-            });
-            return;
-        }
-
-        res.status(200).json({
-            success: true,
-            data: service,
-        });
-
-    } catch (error : any) {
-        res.status(500).json({
-            success: false,
-            message: "Server Error",
-            error: error.message,
-        });
-    }
+    res.ctx.response.success(res, await res.ctx.services.get(req.params.id))
 };
 
 /**Create a new service
@@ -158,29 +115,7 @@ export async function updateService(req: Request, res: Response) {
  * @access  Private/Admin
  */
 export async function deleteService(req: Request, res: Response){
-    try {
-        const service = await Service.findOne({ serviceId: req.params.id });
-
-        if (!service) {
-            res.status(404).json({
-                success: false,
-                message: "Service not found",
-            });
-        }
-
-        await Service.findOneAndDelete({ serviceId: req.params.id });
-
-        res.status(200).json({
-            success: true,
-            message: "Service deleted successfully",
-        });
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: "Server Error",
-            error: error.message,
-        });
-    }
+    res.ctx.response.success(res, await res.ctx.services.delete(req.params.id));
 };
 
 /**
