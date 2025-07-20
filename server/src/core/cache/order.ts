@@ -37,6 +37,15 @@ export class OrderCache{
         return null;
     }
 
+
+    public async create(order: Record<keyof BaseOrder, any>): Promise<BaseOrder> {
+        const createdOrder = await this.nezto.models.Order.create(order);
+        const newOrder = new BaseOrder(createdOrder);
+        this.cache.set(String(newOrder._id), newOrder);
+        return newOrder;
+    }
+
+
     public has(id: string): boolean {
         return this.cache.has(String(id));
     }

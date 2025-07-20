@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "@/models/User";
 import { jwtUser } from "@utils/wrappers";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { UserRoles } from "@/utils/constants";
 import { google_auth_url, jwtConfig, CLIENT } from "@/config";
 import { fetch_google_user, set_cookie } from "@utils/helpers";
