@@ -10,9 +10,11 @@ export class BaseRider extends BaseUser {
 
 
     constructor(obj: any) {
-        super(obj);
+        // If rider has a populated user field, use that for the BaseUser constructor
+        const userObj = obj.user || obj;
+        super(userObj);
         this._id = String(obj._id || "");
-        this.name = String(obj.name || "");
+        this.name = String(userObj.name || "");
         this.payouts = obj.payouts || [];
     }
 }

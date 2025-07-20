@@ -4,8 +4,11 @@ import laundryRoute from './vendorRoutes';
 import orderRoute from './orderRoute';
 import userRoute from './userRoute';
 import serviceRoute from './serviceRoute';
+import riderRoute from './riderRoute';
 import { set_cookie } from '../utils/helpers';
 import { google_auth_url } from '@/config';
+import { isAuthenticated } from '@/middlewares/authentication';
+
 
 export const allRoutes = Router();
 
@@ -18,7 +21,8 @@ allRoutes.get('/', (req, res) => {
 });
 
 allRoutes.use('/auth', authRoute);
-allRoutes.use('/vendors', laundryRoute);
-allRoutes.use('/orders', orderRoute);
-allRoutes.use('/users', userRoute);
-allRoutes.use('/services', serviceRoute);
+allRoutes.use('/vendors', isAuthenticated, laundryRoute);
+allRoutes.use('/orders', isAuthenticated, orderRoute);
+allRoutes.use('/users', isAuthenticated, userRoute);
+allRoutes.use('/services', isAuthenticated, serviceRoute);
+allRoutes.use('/riders', isAuthenticated, riderRoute);

@@ -1,6 +1,7 @@
 import { verifyJWT, set_cookie } from "@/utils/helpers";
 import { Request, Response } from "express";
-
+import { TokenUser } from "@/utils/token";
+import { verify } from "crypto";
 
 /**
  * Middleware to check if the incoming request is authenticated.
@@ -12,23 +13,19 @@ import { Request, Response } from "express";
  */
 export function isAuthenticated(req: Request, res: Response, next: Function): void {
     const token = req.cookies.token || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
+    const user = TokenUser.fromToken(token);
 
-    if (!token) {
-        res.handler.unAuthorised(res, { message: "You are not authenticated" });
+    if (!res.ctx.jwts.has(String(user._id) || "")) {
+        res.handler.unAuthorized(res, { message: "Unauthorized" });
         return;
     }
 
-    if (!req.app.nezto.jwts.has(token)){
-        res.handler.unAuthorised(res);
+    if (!user.valid){
+        res.handler.unAuthorized(res, { message: "Unauthorized" });
         return;
     }
 
-    const user = verifyJWT(token);
-    if (!user) {
-        res.handler.unAuthorised(res);
-        return;
-    }
-    res.setHeader('X-User-Id', String(user._id));
+    req.user = user;
     next();
 }
 
@@ -52,6 +49,7 @@ export function isOwner(req: Request, res: Response, next: Function): void {
     const token = req.cookies.token || (req.headers.authorization && req.headers.authorization.split(' ')[1]);
     const vendorID = req.params.id;
     const response = req.app.nezto.response;
+
     if (!token) {
         response.unAuthorised(res);
     }
@@ -139,7 +137,7 @@ export function hasAnyRole(roles: string[]): (req: Request, res: Response, next:
         if (!user) {
             return res.status(401).json({ message: "Forbidden" });
         }
-        if (!roles.includes(user.role)) {
+        if (!roles.every(role => user.roles.includes(role))) {
             return res.status(403).json({ error: "Unauthorised", message: `User doesn't have permission to access this resource!!` });
         }
         next();

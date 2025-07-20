@@ -17,7 +17,17 @@ export class OrderCache{
     }
 
     public async loadAll(){
-        const orders = await this.nezto.models.Order.find().populate('user', 'name email phone').populate('vendor', 'name email phone').populate('rider', 'name email phone').exec();
+        const orders = await this.nezto.models.Order.find()
+            .populate('user', 'name email phone')
+            .populate('vendor', 'name email phone')
+            .populate({
+                path: 'rider',
+                populate: {
+                    path: 'user',
+                    select: 'name email phone picture location'
+                }
+            })
+            .exec();
         orders.forEach(order => {
             this.cache.set(String(order._id), new BaseOrder(order));
         });
@@ -29,7 +39,17 @@ export class OrderCache{
             return this.cache.get(String(id)) || null;
         }
 
-        const order = await this.nezto.models.Order.findById(id).populate('user', 'name email phone').populate('vendor', 'name email phone').populate('rider', 'name email phone').exec();
+        const order = await this.nezto.models.Order.findById(id)
+            .populate('user', 'name email phone')
+            .populate('vendor', 'name email phone')
+            .populate({
+                path: 'rider',
+                populate: {
+                    path: 'user',
+                    select: 'name email phone picture location'
+                }
+            })
+            .exec();
         if (order) {
             this.cache.set(String(id), new BaseOrder(order));
             return this.cache.get(String(id)) || null;

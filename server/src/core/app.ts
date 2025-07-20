@@ -10,11 +10,16 @@ import { ResponseHandler } from './ext/response';
 
 // middlewares
 import { injector } from '@/middlewares/injector';
+import { TokenUser } from '@/utils/token';
 
 
 declare module 'express-serve-static-core' {
   interface Application {
     nezto: Nezto;
+  }
+
+  interface Request {
+    user : TokenUser | null; // Assuming TokenUser is defined in your utils/token module
   }
 
    interface Response {

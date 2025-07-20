@@ -25,6 +25,7 @@
         "@events": "./build/core/events"
     },
     "dependencies": {
+        "axios": "^1.10.0",
         "bcrypt": "^5.1.1",
         "cookie-parser": "^1.4.7",
         "cors": "^2.8.5",
@@ -36,10 +37,8 @@
         "mongoose": "^8.12.1",
         "multer": "^2.0.1",
         "socket.io": "^4.8.1"
-        
     },
     "devDependencies": {
-        "typescript": "^5.8.3",
         "@swc/core": "^1.12.6",
         "@types/cookie-parser": "^1.4.9",
         "@types/express": "^5.0.3",
@@ -53,7 +52,7 @@
         "eslint-plugin-prettier": "^5.5.0",
         "nodemon": "^3.1.9",
         "prettier": "^3.5.3",
-        "tsconfig-paths": "^4.2.0"
-        
+        "tsconfig-paths": "^4.2.0",
+        "typescript": "^5.8.3"
     }
 }

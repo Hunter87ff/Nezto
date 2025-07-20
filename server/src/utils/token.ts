@@ -11,6 +11,7 @@ import type { Types } from "mongoose";
  */
 export class TokenUser {
     _id?: string | Types.ObjectId | null
+    valid: boolean = false; // Indicates if the user is valid based on the token
     email?: string | null
     name?: string | null
     roles?: string[] | null
@@ -28,6 +29,7 @@ export class TokenUser {
         try {
             const jwtuser = verifyJWT(token || "");
             this._id = jwtuser?._id || null;
+            this.valid = Boolean(this._id);
             this.email = jwtuser?.email || null;
             this.name = jwtuser?.name || null;
             this.roles = Array.from(jwtuser?.roles || []);
@@ -48,6 +50,10 @@ export class TokenUser {
             this.isVendor = this.roles.includes("vendor");
             this.isUser = this.roles.includes("user");
         }
+    }
+
+    public static fromToken(token: string | undefined): TokenUser {
+        return new TokenUser(token);
     }
 
     public static sign(payload: Partial<TokenUser>): string {

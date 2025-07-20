@@ -15,7 +15,7 @@ export class RiderCache {
     }
 
     public async loadAll() {
-        const riders = await this.nezto.models.Rider.find().exec();
+        const riders = await this.nezto.models.Rider.find().populate('user').exec();
         riders.forEach(rider => {
             this.set(String(rider._id), new BaseRider(rider));
         });
@@ -26,7 +26,7 @@ export class RiderCache {
         if (this.cache.has(String(id))) {
             return this.cache.get(String(id)) || null;
         }
-        const rider = await this.nezto.models.Rider.findById(id).exec();
+        const rider = await this.nezto.models.Rider.findById(id).populate('user').exec();
         if (rider) {
             this.set(String(id), new BaseRider(rider));
             return this.cache.get(String(id)) || null;
